@@ -11,6 +11,7 @@ export interface AppState {
   remittances: Remittance[];
   searchQuery: string;
   isSearchOpen: boolean;
+  isKeypadOpen: boolean;
   currentPage: number;
   pageSize: number;
   paymentInput: string;

@@ -19,6 +19,7 @@ describe('Selectors', () => {
     remittances,
     searchQuery: '',
     isSearchOpen: false,
+    isKeypadOpen: true,
     currentPage: 1,
     pageSize: 10,
     paymentInput: '',

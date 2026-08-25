@@ -74,6 +74,7 @@ const render = (): void => {
   workspace.append(
     createPaymentForm({
       value: state.paymentInput,
+      isKeypadOpen: state.isKeypadOpen,
       onDigit: paymentController.appendDigit,
       onDelete: paymentController.deleteLastDigit,
       onConfirm: paymentController.charge,
@@ -92,12 +93,14 @@ const render = (): void => {
   dateLabel.textContent = getTodayLabel();
   date.append(today, dateLabel);
 
-  const calendarButton = createListActionButton(
-    'fa-solid fa-calendar-days',
-    'Seleccionar fecha',
+  const keypadButton = createListActionButton(
+    'fa-solid fa-keyboard',
+    state.isKeypadOpen ? 'Ocultar teclado numérico' : 'Mostrar teclado numérico',
     'list-panel__calendar-action',
+    () => store.setState({ isKeypadOpen: !store.getState().isKeypadOpen }),
   );
-  listHeader.append(date, calendarButton);
+  keypadButton.setAttribute('aria-expanded', String(state.isKeypadOpen));
+  listHeader.append(date, keypadButton);
 
   const actions = document.createElement('div');
   actions.className = 'list-panel__actions';
