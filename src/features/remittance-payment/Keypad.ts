@@ -49,13 +49,18 @@ export const createKeypad = ({ onDigit, onDelete, onConfirm }: KeypadOptions): H
   deleteButton.append(deleteIcon);
 
   const confirmButton = createButton({
-    label: '↵',
+    label: '',
     type: 'primary',
     size: 'lg',
     onClick: onConfirm,
   });
   confirmButton.classList.add('keypad__confirm');
   confirmButton.setAttribute('aria-label', 'Cobrar remesa');
+
+  const confirmIcon = document.createElement('i');
+  confirmIcon.className = 'fa-solid fa-arrow-turn-down';
+  confirmIcon.setAttribute('aria-hidden', 'true');
+  confirmButton.append(confirmIcon);
 
   keypad.append(decimalButton, deleteButton, confirmButton);
   return keypad;

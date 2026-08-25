@@ -483,6 +483,10 @@ input {
   height: auto !important;
 }
 
+.keypad__confirm i {
+  transform: rotate(-90deg);
+}
+
 .list-panel {
   background: #ffffff;
   flex: 1;
