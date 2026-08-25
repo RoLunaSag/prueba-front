@@ -48,6 +48,12 @@ describe('Selectors', () => {
     ]);
   });
 
+  it('incluye remesas no cobradas cuando existe una búsqueda aplicada', () => {
+    const result = selectVisibleRemittances(createState({ searchQuery: '0002' }));
+
+    expect(result.items.map((remittance) => remittance.id)).toEqual(['10000002']);
+  });
+
   it('ordena por ID, compañía o monto en la dirección solicitada', () => {
     expect(selectRemittancesByField(remittances, 'amount', 'desc')[0].amount).toBe(12000);
     expect(selectRemittancesByField(remittances, 'id', 'asc')[0].id).toBe('10000001');

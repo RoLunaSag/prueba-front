@@ -89,8 +89,8 @@ export const selectFilteredRemittances = ({
   sortDirection,
 }: Pick<AppState, 'remittances' | 'searchQuery' | 'sortField' | 'sortDirection'>): Remittance[] => {
   const searched = selectSearchedRemittances(remittances, searchQuery);
-  const charged = selectChargedRemittances(searched);
-  return selectRemittancesByField(charged, sortField, sortDirection);
+  const results = searchQuery.trim() ? searched : selectChargedRemittances(searched);
+  return selectRemittancesByField(results, sortField, sortDirection);
 };
 
 export const selectVisibleRemittances = ({
