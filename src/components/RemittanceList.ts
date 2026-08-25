@@ -4,6 +4,7 @@ import type { RemittanceListOptions } from '../types/ComponentsTypes';
 export const createRemittanceList = ({
   items,
   emptyMessage = 'No hay remesas para mostrar.',
+  onRestore,
 }: RemittanceListOptions): HTMLElement => {
   const container = document.createElement('section');
   container.className = 'remittance-list';
@@ -14,6 +15,22 @@ export const createRemittanceList = ({
     emptyState.className = 'remittance-list__empty';
     emptyState.textContent = emptyMessage;
     container.append(emptyState);
+
+    if (onRestore) {
+      const restoreButton = document.createElement('button');
+      restoreButton.type = 'button';
+      restoreButton.className = 'remittance-list__restore';
+      restoreButton.setAttribute('aria-label', 'Regresar a la lista original');
+
+      const icon = document.createElement('i');
+      icon.className = 'fa-solid fa-arrow-left';
+      icon.setAttribute('aria-hidden', 'true');
+
+      restoreButton.append(icon);
+      restoreButton.addEventListener('click', onRestore);
+      container.append(restoreButton);
+    }
+
     return container;
   }
 

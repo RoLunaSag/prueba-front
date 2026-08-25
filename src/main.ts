@@ -156,7 +156,12 @@ const render = (): void => {
   }
 
   listPanel.append(
-    createRemittanceList({ items: visibleRemittances.items }),
+    createRemittanceList({
+      items: visibleRemittances.items,
+      onRestore: state.searchQuery
+        ? () => store.setState({ searchQuery: '', currentPage: 1 })
+        : undefined,
+    }),
     createPagination({
       currentPage: visibleRemittances.currentPage,
       totalPages: visibleRemittances.totalPages,

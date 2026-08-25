@@ -38,6 +38,7 @@ export interface RemittanceListItem {
 export interface RemittanceListOptions {
   items: RemittanceListItem[];
   emptyMessage?: string;
+  onRestore?: () => void;
 }
 
 export interface SearchBarOptions {
