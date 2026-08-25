@@ -10,6 +10,7 @@ import { createRemittanceList } from './components/RemittanceList';
 import { createSearchBar } from './components/SearchBar';
 import { createSidebar } from './components/Sidebar';
 import { createTopbar } from './components/Topbar';
+import userElizabethAvatar from '../assets/images/user-elizabeth.jpg';
 import { createPagination } from './features/remittance-list/Pagination';
 import { createPaymentController } from './features/remittance-payment/PaymentController';
 import { createPaymentForm } from './features/remittance-payment/PaymentForm';
@@ -89,7 +90,15 @@ const render = (): void => {
 
   const rightColumn = document.createElement('div');
   rightColumn.className = 'main-screen__right-column';
-  rightColumn.append(createTopbar({ user: { name: 'Elizabeth', role: 'Operador' } }));
+  rightColumn.append(
+    createTopbar({
+      user: {
+        name: 'Elizabeth',
+        role: 'Operador',
+        avatarUrl: userElizabethAvatar,
+      },
+    }),
+  );
 
   const listPanel = document.createElement('section');
   listPanel.className = 'list-panel';
