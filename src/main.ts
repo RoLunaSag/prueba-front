@@ -96,6 +96,7 @@ const render = (): void => {
         name: 'Elizabeth',
         role: 'Operador',
         avatarUrl: userElizabethAvatar,
+        onNotificationsClick: () => alertManager.show('No hay notificaciones', 'error'),
       },
     }),
   );
