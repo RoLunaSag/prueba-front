@@ -144,7 +144,12 @@ const render = (): void => {
       onFieldSelect: listController.selectSortField,
       onDirectionToggle: listController.toggleSortDirection,
     }),
-    createListActionButton('fa-solid fa-print', 'Imprimir listado'),
+    createListActionButton(
+      'fa-solid fa-print',
+      'Imprimir listado filtrado',
+      'list-panel__action',
+      listController.printFilteredList,
+    ),
   );
 
   listPanel.append(listHeader, actions);

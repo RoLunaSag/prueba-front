@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createListController } from '../src/features/remittance-list/ListController';
 import type { AlertManager } from '../src/state/AlertManager';
-import { createStore } from '../src/state/Store';
+import { createInitialAppState, createStore } from '../src/state/Store';
 
 const createAlertManager = (): AlertManager => ({
   show: vi.fn(),
@@ -48,5 +48,15 @@ describe('ListController', () => {
 
     vi.advanceTimersByTime(5000);
     expect(store.getState().isFilterOpen).toBe(false);
+  });
+
+  it('muestra un error al intentar imprimir una lista vacía', () => {
+    const store = createStore({ ...createInitialAppState(), remittances: [] });
+    const alertManager = createAlertManager();
+    const controller = createListController(store, alertManager);
+
+    controller.printFilteredList();
+
+    expect(alertManager.show).toHaveBeenCalledWith('No se puede imprimir una lista vacia', 'error');
   });
 });

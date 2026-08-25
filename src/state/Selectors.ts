@@ -82,17 +82,21 @@ export const selectPaginatedRemittances = (
   };
 };
 
-export const selectVisibleRemittances = ({
+export const selectFilteredRemittances = ({
   remittances,
   searchQuery,
-  currentPage,
-  pageSize,
   sortField,
   sortDirection,
-}: AppState): PaginatedRemittances => {
+}: Pick<AppState, 'remittances' | 'searchQuery' | 'sortField' | 'sortDirection'>): Remittance[] => {
   const searched = selectSearchedRemittances(remittances, searchQuery);
   const charged = selectChargedRemittances(searched);
-  const ordered = selectRemittancesByField(charged, sortField, sortDirection);
+  return selectRemittancesByField(charged, sortField, sortDirection);
+};
 
-  return selectPaginatedRemittances(ordered, currentPage, pageSize);
+export const selectVisibleRemittances = ({
+  currentPage,
+  pageSize,
+  ...state
+}: AppState): PaginatedRemittances => {
+  return selectPaginatedRemittances(selectFilteredRemittances(state), currentPage, pageSize);
 };

@@ -1,9 +1,11 @@
 import type { AlertManager } from '../../state/AlertManager';
 import type { AppStore } from '../../state/Store';
 import {
+  selectFilteredRemittances,
   selectVisibleRemittances,
   type PaginatedRemittances,
 } from '../../state/Selectors';
+import { printRemittanceList } from '../../services/PrintService';
 import type { RemittanceSortField } from '../../types/AppState';
 
 type ListSortField = Exclude<RemittanceSortField, 'charged_at'>;
@@ -17,6 +19,7 @@ export interface ListController {
   toggleFilterDropdown: () => void;
   selectSortField: (sortField: ListSortField) => void;
   toggleSortDirection: () => void;
+  printFilteredList: () => void;
   dispose: () => void;
 }
 
@@ -69,6 +72,18 @@ export const createListController = (
       });
       scheduleFilterClose();
       alertManager.notifyFilterApplied();
+    },
+    printFilteredList: (): void => {
+      const remittances = selectFilteredRemittances(store.getState());
+
+      if (remittances.length === 0) {
+        alertManager.show('No se puede imprimir una lista vacia', 'error');
+        return;
+      }
+
+      if (!printRemittanceList(remittances)) {
+        alertManager.show('No se pudo abrir la ventana de impresión.', 'error');
+      }
     },
     dispose: (): void => {
       if (filterCloseTimer) clearTimeout(filterCloseTimer);
