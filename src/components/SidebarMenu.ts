@@ -20,6 +20,17 @@ export const createSidebarMenu = ({
 
   const list = document.createElement('ul');
   list.className = 'sidebar-menu__items';
+  const buttons = new Map<string, HTMLButtonElement>();
+
+  const setActiveItem = (itemId: string): void => {
+    buttons.forEach((button, id) => {
+      if (id === itemId) {
+        button.setAttribute('aria-current', 'page');
+      } else {
+        button.removeAttribute('aria-current');
+      }
+    });
+  };
 
   items.forEach(({ id, label, iconClass }) => {
     const listItem = document.createElement('li');
@@ -34,7 +45,11 @@ export const createSidebarMenu = ({
     icon.setAttribute('aria-hidden', 'true');
 
     button.append(icon);
-    button.addEventListener('click', () => onSelect?.(id));
+    buttons.set(id, button);
+    button.addEventListener('click', () => {
+      setActiveItem(id);
+      onSelect?.(id);
+    });
     listItem.append(button);
     list.append(listItem);
   });
