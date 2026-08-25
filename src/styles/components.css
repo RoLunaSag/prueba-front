@@ -84,21 +84,6 @@
   padding: 1rem;
 }
 
-.app-shell {
-  background: #ffffff;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  min-height: 100vh;
-}
-
-.app-shell__sidebar {
-  background: #303030;
-}
-
-.app-shell__content {
-  min-width: 0;
-}
-
 .sidebar {
   align-items: center;
   display: flex;
@@ -346,48 +331,6 @@
 .alert--info {
   background: #ddf6fa;
   color: #137a8a;
-}
-
-body {
-  margin: 0;
-  min-width: 20rem;
-}
-
-button,
-input {
-  font: inherit;
-}
-
-.main-screen {
-  min-height: 100%;
-  position: relative;
-}
-
-.main-screen .alert {
-  margin: 0;
-  max-width: 24rem;
-  position: absolute;
-  right: 1.5rem;
-  top: 1rem;
-  z-index: 1;
-}
-
-.main-screen__workspace {
-  display: grid;
-  grid-template-columns: minmax(18rem, 24.5rem) minmax(0, 1fr);
-  min-height: 100vh;
-  overflow: hidden;
-  transition: grid-template-columns 320ms ease;
-}
-
-.main-screen__workspace--keypad-hidden {
-  grid-template-columns: 0 minmax(0, 1fr);
-}
-
-.main-screen__right-column {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
 }
 
 .payment-form {
