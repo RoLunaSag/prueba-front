@@ -1,10 +1,5 @@
 import { createItemList } from './ItemList';
-import type { RemittanceListItem } from './ItemList';
-
-export interface RemittanceListOptions {
-  items: RemittanceListItem[];
-  emptyMessage?: string;
-}
+import type { RemittanceListOptions } from '../types/ComponentsTypes';
 
 export const createRemittanceList = ({
   items,

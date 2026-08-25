@@ -1,14 +1,4 @@
-export type ButtonType = 'primary' | 'secondary' | 'outline' | 'ghost' | 'keypad';
-export type ButtonSize = 'sm' | 'md' | 'lg';
-
-export interface ButtonProps {
-  label: string;
-  onClick?: (event: MouseEvent) => void;
-  bgcolor?: string;
-  color?: string;
-  size?: ButtonSize;
-  type?: ButtonType;
-}
+import type { ButtonProps, ButtonType } from '../types/ComponentsTypes';
 
 const buttonStyles: Record<ButtonType, { background: string; foreground: string }> = {
   primary: { background: '#2c13b9', foreground: '#ffffff' },

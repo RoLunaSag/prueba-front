@@ -1,10 +1,5 @@
 import { createButton } from './Button';
-
-export interface SearchBarOptions {
-  placeholder?: string;
-  value?: string;
-  onSearch: (query: string) => void;
-}
+import type { SearchBarOptions } from '../types/ComponentsTypes';
 
 export const createSearchBar = ({
   placeholder = 'Buscar por ID, compañía o monto',

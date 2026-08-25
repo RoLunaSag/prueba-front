@@ -1,9 +1,4 @@
-export interface UserBoxOptions {
-  name: string;
-  role: string;
-  avatarUrl?: string;
-  onNotificationsClick?: () => void;
-}
+import type { UserBoxOptions } from '../types/ComponentsTypes';
 
 export const createUserBox = ({
   name,

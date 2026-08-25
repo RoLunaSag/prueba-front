@@ -1,8 +1,4 @@
-export interface SidebarMenuItem {
-  id: string;
-  label: string;
-  iconClass: string;
-}
+import type { SidebarMenuItem, SidebarMenuOptions } from '../types/ComponentsTypes';
 
 export const sidebarMenuItems: SidebarMenuItem[] = [
   { id: 'home', label: 'Inicio', iconClass: 'fa-solid fa-house' },
@@ -12,12 +8,6 @@ export const sidebarMenuItems: SidebarMenuItem[] = [
   { id: 'cashback', label: 'Cashback', iconClass: 'fa-solid fa-hand-holding-dollar' },
   { id: 'statsfolder', label: 'Estadísticas', iconClass: 'fa-solid fa-folder-open' },
 ];
-
-export interface SidebarMenuOptions {
-  items?: SidebarMenuItem[];
-  activeItemId?: string;
-  onSelect?: (itemId: string) => void;
-}
 
 export const createSidebarMenu = ({
   items = sidebarMenuItems,

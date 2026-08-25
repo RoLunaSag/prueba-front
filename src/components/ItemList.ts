@@ -1,8 +1,4 @@
-export interface RemittanceListItem {
-  id: string;
-  company: string;
-  amount: number;
-}
+import type { RemittanceListItem } from '../types/ComponentsTypes';
 
 export const createItemList = ({ id, company, amount }: RemittanceListItem): HTMLLIElement => {
   const item = document.createElement('li');

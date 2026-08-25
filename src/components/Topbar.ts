@@ -1,10 +1,5 @@
 import { createUserBox } from './UserBox';
-import type { UserBoxOptions } from './UserBox';
-
-export interface TopbarOptions {
-  title: string;
-  user: UserBoxOptions;
-}
+import type { TopbarOptions } from '../types/ComponentsTypes';
 
 export const createTopbar = ({ title, user }: TopbarOptions): HTMLElement => {
   const topbar = document.createElement('header');

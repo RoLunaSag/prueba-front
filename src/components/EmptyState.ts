@@ -1,7 +1,4 @@
-export interface EmptyStateOptions {
-  title: string;
-  description?: string;
-}
+import type { EmptyStateOptions } from '../types/ComponentsTypes';
 
 export const createEmptyState = ({ title, description }: EmptyStateOptions): HTMLElement => {
   const container = document.createElement('section');

@@ -1,13 +1,6 @@
 import { createSidebarMenu } from './SidebarMenu';
 import { sidebarMenuItems } from './SidebarMenu';
-import type { SidebarMenuItem } from './SidebarMenu';
-
-export interface SidebarOptions {
-  brand?: string;
-  menuItems?: SidebarMenuItem[];
-  activeItemId?: string;
-  onMenuSelect?: (itemId: string) => void;
-}
+import type { SidebarOptions } from '../types/ComponentsTypes';
 
 export const createSidebar = ({
   brand = 'n09',

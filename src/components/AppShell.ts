@@ -1,7 +1,4 @@
-export interface AppShellOptions {
-  sidebar: HTMLElement;
-  content: HTMLElement;
-}
+import type { AppShellOptions } from '../types/ComponentsTypes';
 
 export const createAppShell = ({ sidebar, content }: AppShellOptions): HTMLElement => {
   const shell = document.createElement('main');

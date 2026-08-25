@@ -1,8 +1,4 @@
-import type { RemittanceStatus } from '../types/Remittance';
-
-export interface StatusBadgeOptions {
-  status: RemittanceStatus;
-}
+import type { StatusBadgeOptions } from '../types/ComponentsTypes';
 
 export const createStatusBadge = ({ status }: StatusBadgeOptions): HTMLElement => {
   const badge = document.createElement('span');

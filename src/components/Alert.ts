@@ -1,10 +1,4 @@
-export type AlertType = 'success' | 'error' | 'info';
-
-export interface AlertOptions {
-  message: string;
-  type?: AlertType;
-  onDismiss?: () => void;
-}
+import type { AlertOptions } from '../types/ComponentsTypes';
 
 export const createAlert = ({
   message,
