@@ -1,4 +1,3 @@
-import type { RemittanceStatus } from './Remittance';
 import type { RemittanceSortField, SortDirection } from './AppState';
 
 export type AlertType = 'success' | 'error' | 'info';
@@ -23,11 +22,6 @@ export interface ButtonProps {
   color?: string;
   size?: ButtonSize;
   type?: ButtonType;
-}
-
-export interface EmptyStateOptions {
-  title: string;
-  description?: string;
 }
 
 export interface FilterDropdownOptions {
@@ -79,10 +73,6 @@ export interface SidebarOptions {
   menuItems?: SidebarMenuItem[];
   activeItemId?: string;
   onMenuSelect?: (itemId: string) => void;
-}
-
-export interface StatusBadgeOptions {
-  status: RemittanceStatus;
 }
 
 export interface TopbarOptions {
