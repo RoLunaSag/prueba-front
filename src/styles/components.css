@@ -163,7 +163,8 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: 1.25rem 1.75rem;
+  min-height: 4.6rem;
+  padding: 1.55rem 1.75rem 1rem;
 }
 
 .topbar__title {
@@ -359,22 +360,34 @@ input {
 
 .main-screen {
   min-height: 100%;
+  position: relative;
 }
 
 .main-screen .alert {
-  margin: 0 1.75rem 1rem;
+  margin: 0;
+  max-width: 24rem;
+  position: absolute;
+  right: 1.5rem;
+  top: 1rem;
+  z-index: 1;
 }
 
 .main-screen__workspace {
   display: grid;
   grid-template-columns: minmax(18rem, 24.5rem) minmax(0, 1fr);
-  min-height: calc(100vh - 4.75rem);
+  min-height: 100vh;
   overflow: hidden;
   transition: grid-template-columns 320ms ease;
 }
 
 .main-screen__workspace--keypad-hidden {
   grid-template-columns: 0 minmax(0, 1fr);
+}
+
+.main-screen__right-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .payment-form {
@@ -470,6 +483,7 @@ input {
 
 .list-panel {
   background: #ffffff;
+  flex: 1;
   padding: 2rem 2.25rem;
 }
 

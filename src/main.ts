@@ -74,18 +74,6 @@ const render = (): void => {
 
   const content = document.createElement('div');
   content.className = 'main-screen';
-  content.append(
-    createTopbar({ user: { name: 'Elizabeth', role: 'Operador' } }),
-  );
-
-  if (state.alert) {
-    content.append(
-      createAlert({
-        ...state.alert,
-        onDismiss: alertManager.clear,
-      }),
-    );
-  }
 
   const workspace = document.createElement('div');
   workspace.className = 'main-screen__workspace';
@@ -98,6 +86,10 @@ const render = (): void => {
       onConfirm: paymentController.charge,
     }),
   );
+
+  const rightColumn = document.createElement('div');
+  rightColumn.className = 'main-screen__right-column';
+  rightColumn.append(createTopbar({ user: { name: 'Elizabeth', role: 'Operador' } }));
 
   const listPanel = document.createElement('section');
   listPanel.className = 'list-panel';
@@ -169,8 +161,18 @@ const render = (): void => {
     }),
   );
 
-  workspace.append(listPanel);
+  rightColumn.append(listPanel);
+  workspace.append(rightColumn);
   content.append(workspace);
+
+  if (state.alert) {
+    content.append(
+      createAlert({
+        ...state.alert,
+        onDismiss: alertManager.clear,
+      }),
+    );
+  }
 
   root.replaceChildren(
     createAppShell({
