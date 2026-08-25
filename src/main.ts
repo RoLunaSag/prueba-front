@@ -30,6 +30,24 @@ const getTodayLabel = (): string =>
     new Date(),
   );
 
+const createListActionButton = (
+  iconClass: string,
+  ariaLabel: string,
+  className = 'list-panel__action',
+): HTMLButtonElement => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = className;
+  button.setAttribute('aria-label', ariaLabel);
+
+  const icon = document.createElement('i');
+  icon.className = iconClass;
+  icon.setAttribute('aria-hidden', 'true');
+  button.append(icon);
+
+  return button;
+};
+
 const render = (): void => {
   const state = store.getState();
   const visibleRemittances = selectVisibleRemittances(state);
@@ -71,10 +89,25 @@ const render = (): void => {
   const dateLabel = document.createElement('span');
   dateLabel.textContent = getTodayLabel();
   date.append(today, dateLabel);
-  listHeader.append(date);
+
+  const calendarButton = createListActionButton(
+    'fa-solid fa-calendar-days',
+    'Seleccionar fecha',
+    'list-panel__calendar-action',
+  );
+  listHeader.append(date, calendarButton);
+
+  const actions = document.createElement('div');
+  actions.className = 'list-panel__actions';
+  actions.append(
+    createListActionButton('fa-solid fa-magnifying-glass', 'Buscar remesas'),
+    createListActionButton('fa-solid fa-filter', 'Filtrar remesas'),
+    createListActionButton('fa-solid fa-print', 'Imprimir listado'),
+  );
 
   listPanel.append(
     listHeader,
+    actions,
     createSearchBar({
       value: state.searchQuery,
       onSearch: (searchQuery) => store.setState({ searchQuery, currentPage: 1 }),

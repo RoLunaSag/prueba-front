@@ -460,11 +460,53 @@ input {
   margin-top: 0.2rem;
 }
 
-.list-panel .search-bar {
+.list-panel__calendar-action,
+.list-panel__action {
+  align-items: center;
+  background: #ffffff;
+  border: 2px solid #d7d8fa;
+  border-radius: 0.3rem;
+  color: #2914bf;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 1rem;
+  height: 2.2rem;
+  justify-content: center;
+  width: 2.2rem;
+}
+
+.list-panel__calendar-action {
+  background: #2914bf;
+  border: 0;
+  border-radius: 50%;
+  color: #ffffff;
+  height: 2.6rem;
+  width: 2.6rem;
+}
+
+.list-panel__action:hover,
+.list-panel__calendar-action:hover {
+  filter: brightness(0.92);
+}
+
+.list-panel__action:focus-visible,
+.list-panel__calendar-action:focus-visible {
+  outline: 3px solid #71e2ef;
+  outline-offset: 2px;
+}
+
+.list-panel__actions {
   border-bottom: 1px solid #dedde2;
+  display: flex;
+  gap: 0.5rem;
   justify-content: flex-end;
-  margin-bottom: 0.25rem;
-  padding-bottom: 1rem;
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+.list-panel .search-bar {
+  justify-content: flex-end;
+  margin-bottom: 0.8rem;
 }
 
 .list-panel .search-bar__input {
