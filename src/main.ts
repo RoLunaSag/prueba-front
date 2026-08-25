@@ -30,6 +30,7 @@ const store = createStore();
 const alertManager = createAlertManager(store);
 const paymentController = createPaymentController(store, alertManager);
 let isPaymentPanelOpen = true;
+let filterCloseTimer: ReturnType<typeof setTimeout> | undefined;
 
 const getTodayLabel = (): string =>
   new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', year: 'numeric' }).format(
@@ -68,6 +69,25 @@ const togglePaymentPanel = (): void => {
     'aria-label',
     isPaymentPanelOpen ? 'Ocultar panel de teclado' : 'Mostrar panel de teclado',
   );
+};
+
+const scheduleFilterClose = (): void => {
+  if (filterCloseTimer) clearTimeout(filterCloseTimer);
+
+  filterCloseTimer = setTimeout(() => {
+    store.setState({ isFilterOpen: false });
+    filterCloseTimer = undefined;
+  }, 5000);
+};
+
+const toggleFilterDropdown = (): void => {
+  const isFilterOpen = store.getState().isFilterOpen;
+
+  if (filterCloseTimer) clearTimeout(filterCloseTimer);
+  filterCloseTimer = undefined;
+  store.setState({ isFilterOpen: !isFilterOpen });
+
+  if (!isFilterOpen) scheduleFilterClose();
 };
 
 const render = (): void => {
@@ -139,9 +159,10 @@ const render = (): void => {
       isOpen: state.isFilterOpen,
       field: state.sortField === 'charged_at' ? null : state.sortField,
       direction: state.sortDirection,
-      onToggle: () => store.setState({ isFilterOpen: !store.getState().isFilterOpen }),
+      onToggle: toggleFilterDropdown,
       onFieldSelect: (sortField) => {
         store.setState({ sortField, sortDirection: 'desc', currentPage: 1 });
+        scheduleFilterClose();
         alertManager.notifyFilterApplied();
       },
       onDirectionToggle: () => {
@@ -150,6 +171,7 @@ const render = (): void => {
           sortDirection: currentDirection === 'desc' ? 'asc' : 'desc',
           currentPage: 1,
         });
+        scheduleFilterClose();
         alertManager.notifyFilterApplied();
       },
     }),
