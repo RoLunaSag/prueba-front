@@ -5,10 +5,13 @@ export const createTopbar = ({ title, user }: TopbarOptions): HTMLElement => {
   const topbar = document.createElement('header');
   topbar.className = 'topbar';
 
-  const titleElement = document.createElement('h1');
-  titleElement.className = 'topbar__title';
-  titleElement.textContent = title;
+  if (title) {
+    const titleElement = document.createElement('h1');
+    titleElement.className = 'topbar__title';
+    titleElement.textContent = title;
+    topbar.append(titleElement);
+  }
 
-  topbar.append(titleElement, createUserBox(user));
+  topbar.append(createUserBox(user));
   return topbar;
 };

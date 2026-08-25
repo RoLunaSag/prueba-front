@@ -354,12 +354,19 @@ input {
   padding: 1.75rem 2rem 2.5rem;
 }
 
-.payment-form h1 {
-  border-top: 1px solid #42c7d7;
+.payment-form__application-title {
+  border-bottom: 1px solid #42c7d7;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+  padding-bottom: 1rem;
+}
+
+.payment-form__title {
   color: #4ddce9;
   font-size: 1.25rem;
-  margin: 0;
-  padding-top: 1rem;
+  margin: 1rem 0 0;
 }
 
 .payment-form__input {

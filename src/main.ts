@@ -37,7 +37,7 @@ const render = (): void => {
   const content = document.createElement('div');
   content.className = 'main-screen';
   content.append(
-    createTopbar({ title: 'Ventanilla Digital', user: { name: 'Elizabeth', role: 'Operador' } }),
+    createTopbar({ user: { name: 'Elizabeth', role: 'Operador' } }),
   );
 
   if (state.alert) {

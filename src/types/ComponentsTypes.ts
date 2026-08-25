@@ -70,7 +70,7 @@ export interface StatusBadgeOptions {
 }
 
 export interface TopbarOptions {
-  title: string;
+  title?: string;
   user: UserBoxOptions;
 }
 
