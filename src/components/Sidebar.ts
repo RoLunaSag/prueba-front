@@ -1,16 +1,17 @@
 import { createSidebarMenu } from './SidebarMenu';
+import { sidebarMenuItems } from './SidebarMenu';
 import type { SidebarMenuItem } from './SidebarMenu';
 
 export interface SidebarOptions {
-  brand: string;
-  menuItems: SidebarMenuItem[];
+  brand?: string;
+  menuItems?: SidebarMenuItem[];
   activeItemId?: string;
   onMenuSelect?: (itemId: string) => void;
 }
 
 export const createSidebar = ({
-  brand,
-  menuItems,
+  brand = 'n09',
+  menuItems = sidebarMenuItems,
   activeItemId,
   onMenuSelect,
 }: SidebarOptions): HTMLElement => {

@@ -136,6 +136,7 @@
   align-items: center;
   background: transparent;
   border: 0;
+  border-radius: 0.5rem;
   color: #ffffff;
   cursor: pointer;
   display: grid;
@@ -147,6 +148,15 @@
 
 .sidebar-menu__button[aria-current='page'] {
   color: #48d8e8;
+}
+
+.sidebar-menu__button:hover {
+  background: rgb(255 255 255 / 10%);
+}
+
+.sidebar-menu__button:focus-visible {
+  outline: 2px solid #48d8e8;
+  outline-offset: 2px;
 }
 
 .topbar {

@@ -4,15 +4,24 @@ export interface SidebarMenuItem {
   iconClass: string;
 }
 
+export const sidebarMenuItems: SidebarMenuItem[] = [
+  { id: 'home', label: 'Inicio', iconClass: 'fa-solid fa-house' },
+  { id: 'remittance', label: 'Remesas', iconClass: 'fa-solid fa-money-bill-transfer' },
+  { id: 'card', label: 'Tarjetas', iconClass: 'fa-solid fa-credit-card' },
+  { id: 'policy', label: 'Políticas', iconClass: 'fa-solid fa-shield-halved' },
+  { id: 'cashback', label: 'Cashback', iconClass: 'fa-solid fa-hand-holding-dollar' },
+  { id: 'statsfolder', label: 'Estadísticas', iconClass: 'fa-solid fa-folder-open' },
+];
+
 export interface SidebarMenuOptions {
-  items: SidebarMenuItem[];
+  items?: SidebarMenuItem[];
   activeItemId?: string;
   onSelect?: (itemId: string) => void;
 }
 
 export const createSidebarMenu = ({
-  items,
-  activeItemId,
+  items = sidebarMenuItems,
+  activeItemId = 'remittance',
   onSelect,
 }: SidebarMenuOptions): HTMLElement => {
   const navigation = document.createElement('nav');
