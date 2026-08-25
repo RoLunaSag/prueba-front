@@ -38,19 +38,21 @@ export const createFilterDropdown = ({
   menu.setAttribute('role', 'menu');
   menu.setAttribute('aria-label', 'Opciones de ordenamiento');
 
-  const title = document.createElement('p');
-  title.className = 'filter-dropdown__title';
-  title.textContent = 'Ordenar por';
-  menu.append(title);
-
   filterOptions.forEach((option) => {
     const optionButton = document.createElement('button');
     optionButton.type = 'button';
     optionButton.className = 'filter-dropdown__option';
-    optionButton.textContent = option.label;
     optionButton.setAttribute('role', 'menuitemradio');
     optionButton.setAttribute('aria-checked', String(field === option.value));
     if (field === option.value) optionButton.classList.add('filter-dropdown__option--active');
+
+    const radio = document.createElement('span');
+    radio.className = 'filter-dropdown__radio';
+    radio.setAttribute('aria-hidden', 'true');
+
+    const label = document.createElement('span');
+    label.textContent = option.label;
+    optionButton.append(radio, label);
     optionButton.addEventListener('click', () => onFieldSelect(option.value));
     menu.append(optionButton);
   });
@@ -58,8 +60,18 @@ export const createFilterDropdown = ({
   const directionButton = document.createElement('button');
   directionButton.type = 'button';
   directionButton.className = 'filter-dropdown__direction';
-  directionButton.setAttribute('aria-label', `Cambiar a orden ${direction === 'desc' ? 'ascendente' : 'descendente'}`);
-  directionButton.textContent = direction === 'desc' ? 'Mayor a menor' : 'Menor a mayor';
+  directionButton.setAttribute(
+    'aria-label',
+    `Cambiar a orden ${direction === 'desc' ? 'ascendente' : 'descendente'}`,
+  );
+
+  const directionIcon = document.createElement('i');
+  directionIcon.className = `fa-solid ${direction === 'asc' ? 'fa-arrow-up-wide-short' : 'fa-arrow-down-wide-short'}`;
+  directionIcon.setAttribute('aria-hidden', 'true');
+
+  const directionLabel = document.createElement('span');
+  directionLabel.textContent = direction === 'asc' ? 'Ascendente' : 'Descendente';
+  directionButton.append(directionIcon, directionLabel);
   directionButton.addEventListener('click', onDirectionToggle);
   menu.append(directionButton);
 
