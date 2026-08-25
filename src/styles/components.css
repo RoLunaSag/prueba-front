@@ -94,8 +94,6 @@
 
 .sidebar__brand {
   align-items: center;
-  background: #000000;
-  border-radius: 0.75rem;
   color: #ffffff;
   display: grid;
   font-weight: 700;
@@ -103,6 +101,14 @@
   justify-content: center;
   text-decoration: none;
   width: 4.25rem;
+}
+
+.sidebar__brand-image {
+  display: block;
+  height: 100%;
+  border-radius: 0.50rem;
+  object-fit: contain;
+  width: 100%;
 }
 
 .sidebar-menu {
