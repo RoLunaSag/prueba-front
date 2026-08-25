@@ -7,6 +7,11 @@
     grid-template-columns: 1fr;
   }
 
+  .main-screen__workspace--keypad-hidden {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0 minmax(0, 1fr);
+  }
+
   .payment-form {
     padding: 1.5rem;
   }

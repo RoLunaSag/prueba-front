@@ -27,6 +27,7 @@ if (!root) {
 const store = createStore();
 const paymentController = createPaymentController(store);
 const alertManager = createAlertManager(store);
+let isPaymentPanelOpen = true;
 
 const getTodayLabel = (): string =>
   new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', year: 'numeric' }).format(
@@ -53,6 +54,20 @@ const createListActionButton = (
   return button;
 };
 
+const togglePaymentPanel = (): void => {
+  isPaymentPanelOpen = !isPaymentPanelOpen;
+
+  const workspace = root.querySelector<HTMLElement>('.main-screen__workspace');
+  workspace?.classList.toggle('main-screen__workspace--keypad-hidden', !isPaymentPanelOpen);
+
+  const keyboardButton = root.querySelector<HTMLButtonElement>('.list-panel__keyboard-action');
+  keyboardButton?.setAttribute('aria-expanded', String(isPaymentPanelOpen));
+  keyboardButton?.setAttribute(
+    'aria-label',
+    isPaymentPanelOpen ? 'Ocultar panel de teclado' : 'Mostrar panel de teclado',
+  );
+};
+
 const render = (): void => {
   const state = store.getState();
   const visibleRemittances = selectVisibleRemittances(state);
@@ -74,10 +89,10 @@ const render = (): void => {
 
   const workspace = document.createElement('div');
   workspace.className = 'main-screen__workspace';
+  if (!isPaymentPanelOpen) workspace.classList.add('main-screen__workspace--keypad-hidden');
   workspace.append(
     createPaymentForm({
       value: state.paymentInput,
-      isKeypadOpen: state.isKeypadOpen,
       onDigit: paymentController.appendDigit,
       onDelete: paymentController.deleteLastDigit,
       onConfirm: paymentController.charge,
@@ -98,11 +113,11 @@ const render = (): void => {
 
   const keypadButton = createListActionButton(
     'fa-solid fa-keyboard',
-    state.isKeypadOpen ? 'Ocultar teclado numérico' : 'Mostrar teclado numérico',
-    'list-panel__calendar-action',
-    () => store.setState({ isKeypadOpen: !store.getState().isKeypadOpen }),
+    isPaymentPanelOpen ? 'Ocultar panel de teclado' : 'Mostrar panel de teclado',
+    'list-panel__calendar-action list-panel__keyboard-action',
+    togglePaymentPanel,
   );
-  keypadButton.setAttribute('aria-expanded', String(state.isKeypadOpen));
+  keypadButton.setAttribute('aria-expanded', String(isPaymentPanelOpen));
   listHeader.append(date, keypadButton);
 
   const actions = document.createElement('div');

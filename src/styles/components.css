@@ -346,12 +346,25 @@ input {
   display: grid;
   grid-template-columns: minmax(18rem, 24.5rem) minmax(0, 1fr);
   min-height: calc(100vh - 4.75rem);
+  overflow: hidden;
+  transition: grid-template-columns 320ms ease;
+}
+
+.main-screen__workspace--keypad-hidden {
+  grid-template-columns: 0 minmax(0, 1fr);
 }
 
 .payment-form {
   background: #2d2d2d;
   color: #ffffff;
   padding: 1.75rem 2rem 2.5rem;
+  transition: opacity 320ms ease, transform 320ms ease;
+}
+
+.main-screen__workspace--keypad-hidden .payment-form {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-100%);
 }
 
 .payment-form__application-title {

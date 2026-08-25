@@ -2,7 +2,6 @@ import { createKeypad } from './Keypad';
 
 export interface PaymentFormOptions {
   value: string;
-  isKeypadOpen: boolean;
   onDigit: (digit: string) => void;
   onDelete: () => void;
   onConfirm: () => void;
@@ -10,7 +9,6 @@ export interface PaymentFormOptions {
 
 export const createPaymentForm = ({
   value,
-  isKeypadOpen,
   onDigit,
   onDelete,
   onConfirm,
@@ -36,11 +34,7 @@ export const createPaymentForm = ({
   input.readOnly = true;
   input.setAttribute('aria-label', 'ID de remesa capturado');
 
-  section.append(applicationTitle, heading, input);
-
-  if (isKeypadOpen) {
-    section.append(createKeypad({ onDigit, onDelete, onConfirm }));
-  }
+  section.append(applicationTitle, heading, input, createKeypad({ onDigit, onDelete, onConfirm }));
 
   return section;
 };
