@@ -469,8 +469,8 @@ input {
 
 .keypad__delete {
   background: #f7f5f5 !important;
-  border-radius: 50% !important;
   color: #202020 !important;
+  border-radius: 2rem !important;
   grid-column: 4;
   grid-row: 1 / span 2;
   height: auto !important;

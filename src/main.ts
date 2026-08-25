@@ -12,12 +12,12 @@ import { createSearchBar } from './components/SearchBar';
 import { createSidebar } from './components/Sidebar';
 import { createTopbar } from './components/Topbar';
 import userElizabethAvatar from '../assets/images/user-elizabeth.jpg';
+import { createListController } from './features/remittance-list/ListController';
 import { createPagination } from './features/remittance-list/Pagination';
 import { createPaymentController } from './features/remittance-payment/PaymentController';
 import { createPaymentForm } from './features/remittance-payment/PaymentForm';
 import { sidebarMenuItems } from './components/SidebarMenu';
 import { createAlertManager } from './state/AlertManager';
-import { selectVisibleRemittances } from './state/Selectors';
 import { createStore } from './state/Store';
 
 const root = document.querySelector<HTMLDivElement>('#app');
@@ -29,8 +29,8 @@ if (!root) {
 const store = createStore();
 const alertManager = createAlertManager(store);
 const paymentController = createPaymentController(store, alertManager);
+const listController = createListController(store, alertManager);
 let isPaymentPanelOpen = true;
-let filterCloseTimer: ReturnType<typeof setTimeout> | undefined;
 
 const getTodayLabel = (): string =>
   new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', year: 'numeric' }).format(
@@ -71,28 +71,9 @@ const togglePaymentPanel = (): void => {
   );
 };
 
-const scheduleFilterClose = (): void => {
-  if (filterCloseTimer) clearTimeout(filterCloseTimer);
-
-  filterCloseTimer = setTimeout(() => {
-    store.setState({ isFilterOpen: false });
-    filterCloseTimer = undefined;
-  }, 5000);
-};
-
-const toggleFilterDropdown = (): void => {
-  const isFilterOpen = store.getState().isFilterOpen;
-
-  if (filterCloseTimer) clearTimeout(filterCloseTimer);
-  filterCloseTimer = undefined;
-  store.setState({ isFilterOpen: !isFilterOpen });
-
-  if (!isFilterOpen) scheduleFilterClose();
-};
-
 const render = (): void => {
   const state = store.getState();
-  const visibleRemittances = selectVisibleRemittances(state);
+  const visibleRemittances = listController.getVisibleRemittances();
 
   const content = document.createElement('div');
   content.className = 'main-screen';
@@ -149,7 +130,7 @@ const render = (): void => {
     'fa-solid fa-magnifying-glass',
     'Mostrar búsqueda de remesas',
     'list-panel__action',
-    () => store.setState({ isSearchOpen: true }),
+    listController.showSearch,
   );
   searchButton.setAttribute('aria-expanded', String(state.isSearchOpen));
 
@@ -159,21 +140,9 @@ const render = (): void => {
       isOpen: state.isFilterOpen,
       field: state.sortField === 'charged_at' ? null : state.sortField,
       direction: state.sortDirection,
-      onToggle: toggleFilterDropdown,
-      onFieldSelect: (sortField) => {
-        store.setState({ sortField, sortDirection: 'desc', currentPage: 1 });
-        scheduleFilterClose();
-        alertManager.notifyFilterApplied();
-      },
-      onDirectionToggle: () => {
-        const currentDirection = store.getState().sortDirection;
-        store.setState({
-          sortDirection: currentDirection === 'desc' ? 'asc' : 'desc',
-          currentPage: 1,
-        });
-        scheduleFilterClose();
-        alertManager.notifyFilterApplied();
-      },
+      onToggle: listController.toggleFilterDropdown,
+      onFieldSelect: listController.selectSortField,
+      onDirectionToggle: listController.toggleSortDirection,
     }),
     createListActionButton('fa-solid fa-print', 'Imprimir listado'),
   );
@@ -183,14 +152,8 @@ const render = (): void => {
   if (state.isSearchOpen) {
     listPanel.append(
       createSearchBar({
-      value: state.searchQuery,
-        onSearch: (searchQuery) => {
-          const nextState = { ...store.getState(), searchQuery, currentPage: 1 };
-          const hasResults = selectVisibleRemittances(nextState).totalItems > 0;
-
-          store.setState({ searchQuery, currentPage: 1, isSearchOpen: false });
-          alertManager.notifySearchResult(hasResults);
-        },
+        value: state.searchQuery,
+        onSearch: listController.search,
       }),
     );
   }
@@ -198,14 +161,12 @@ const render = (): void => {
   listPanel.append(
     createRemittanceList({
       items: visibleRemittances.items,
-      onRestore: state.searchQuery
-        ? () => store.setState({ searchQuery: '', currentPage: 1 })
-        : undefined,
+      onRestore: state.searchQuery ? listController.restoreSearch : undefined,
     }),
     createPagination({
       currentPage: visibleRemittances.currentPage,
       totalPages: visibleRemittances.totalPages,
-      onPageChange: (currentPage) => store.setState({ currentPage }),
+      onPageChange: listController.changePage,
     }),
   );
 
@@ -238,4 +199,5 @@ const render = (): void => {
 };
 
 store.subscribe(render);
+window.addEventListener('beforeunload', listController.dispose, { once: true });
 render();
