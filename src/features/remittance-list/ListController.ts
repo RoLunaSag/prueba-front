@@ -6,7 +6,7 @@ import {
   type PaginatedRemittances,
 } from '../../state/Selectors';
 import { printRemittanceList } from '../../services/PrintService';
-import type { RemittanceSortField } from '../../types/AppState';
+import type { RemittanceSortField, RemittanceStatusFilter } from '../../types/AppState';
 import { LIST_LOADING_DELAY_MS } from '../../utils/Constants';
 
 type ListSortField = Exclude<RemittanceSortField, 'charged_at'>;
@@ -19,6 +19,7 @@ export interface ListController {
   changePage: (currentPage: number) => void;
   toggleFilterDropdown: () => void;
   selectSortField: (sortField: ListSortField) => void;
+  selectStatusFilter: (status: Exclude<RemittanceStatusFilter, 'all'>) => void;
   toggleSortDirection: () => void;
   printFilteredList: () => void;
   dispose: () => void;
@@ -77,6 +78,13 @@ export const createListController = (
     selectSortField: (sortField): void => {
       runWithLoading(() => {
         store.setState({ sortField, sortDirection: 'desc', currentPage: 1 });
+        scheduleFilterClose();
+        alertManager.notifyFilterApplied();
+      });
+    },
+    selectStatusFilter: (statusFilter): void => {
+      runWithLoading(() => {
+        store.setState({ statusFilter, currentPage: 1 });
         scheduleFilterClose();
         alertManager.notifyFilterApplied();
       });

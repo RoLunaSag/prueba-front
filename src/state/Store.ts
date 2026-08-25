@@ -52,6 +52,7 @@ export const createInitialAppState = (): AppState => ({
   isSearchOpen: false,
   isFilterOpen: false,
   isLoading: false,
+  statusFilter: 'all',
   sortField: 'charged_at',
   sortDirection: 'desc',
   selectedSidebarItem: 'remittance',

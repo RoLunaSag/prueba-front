@@ -142,9 +142,11 @@ const render = (): void => {
       isOpen: state.isFilterOpen,
       field: state.sortField === 'charged_at' ? null : state.sortField,
       direction: state.sortDirection,
+      statusFilter: state.statusFilter,
       onToggle: listController.toggleFilterDropdown,
       onFieldSelect: listController.selectSortField,
       onDirectionToggle: listController.toggleSortDirection,
+      onStatusSelect: listController.selectStatusFilter,
     }),
     createListActionButton(
       'fa-solid fa-print',

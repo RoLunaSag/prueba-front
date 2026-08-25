@@ -1,4 +1,4 @@
-import type { RemittanceSortField, SortDirection } from './AppState';
+import type { RemittanceSortField, RemittanceStatusFilter, SortDirection } from './AppState';
 
 export type AlertType = 'success' | 'error' | 'info';
 export type ButtonType = 'primary' | 'secondary' | 'outline' | 'ghost' | 'keypad';
@@ -28,9 +28,11 @@ export interface FilterDropdownOptions {
   isOpen: boolean;
   field: Exclude<RemittanceSortField, 'charged_at'> | null;
   direction: SortDirection;
+  statusFilter: RemittanceStatusFilter;
   onToggle: () => void;
   onFieldSelect: (field: Exclude<RemittanceSortField, 'charged_at'>) => void;
   onDirectionToggle: () => void;
+  onStatusSelect: (status: Exclude<RemittanceStatusFilter, 'all'>) => void;
 }
 
 export interface ActivityLoaderOptions {

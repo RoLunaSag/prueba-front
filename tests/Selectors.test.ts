@@ -22,6 +22,7 @@ describe('Selectors', () => {
     isSearchOpen: false,
     isFilterOpen: false,
     isLoading: false,
+    statusFilter: 'all',
     sortField: 'charged_at',
     sortDirection: 'desc',
     selectedSidebarItem: 'remittance',
@@ -50,6 +51,12 @@ describe('Selectors', () => {
 
   it('incluye remesas no cobradas cuando existe una búsqueda aplicada', () => {
     const result = selectVisibleRemittances(createState({ searchQuery: '0002' }));
+
+    expect(result.items.map((remittance) => remittance.id)).toEqual(['10000002']);
+  });
+
+  it('filtra por el estado seleccionado', () => {
+    const result = selectVisibleRemittances(createState({ statusFilter: 'NO_COBRADO' }));
 
     expect(result.items.map((remittance) => remittance.id)).toEqual(['10000002']);
   });

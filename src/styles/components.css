@@ -571,6 +571,16 @@
   text-align: left;
 }
 
+.filter-dropdown__section-title {
+  border-top: 1px solid #d6d6d6;
+  color: #555555;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin: 0.35rem 0 0;
+  padding-top: 0.75rem;
+  text-transform: uppercase;
+}
+
 .filter-dropdown__radio {
   background: #ffffff;
   border: 0.3rem solid #ffffff;

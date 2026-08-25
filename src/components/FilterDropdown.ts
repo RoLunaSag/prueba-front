@@ -6,13 +6,20 @@ const filterOptions = [
   { value: 'amount', label: 'Monto' },
 ] as const;
 
+const statusOptions = [
+  { value: 'COBRADO', label: 'Cobradas' },
+  { value: 'NO_COBRADO', label: 'No Cobradas' },
+] as const;
+
 export const createFilterDropdown = ({
   isOpen,
   field,
   direction,
+  statusFilter,
   onToggle,
   onFieldSelect,
   onDirectionToggle,
+  onStatusSelect,
 }: FilterDropdownOptions): HTMLElement => {
   const container = document.createElement('div');
   container.className = 'filter-dropdown';
@@ -54,6 +61,30 @@ export const createFilterDropdown = ({
     label.textContent = option.label;
     optionButton.append(radio, label);
     optionButton.addEventListener('click', () => onFieldSelect(option.value));
+    menu.append(optionButton);
+  });
+
+  const statusTitle = document.createElement('p');
+  statusTitle.className = 'filter-dropdown__section-title';
+  statusTitle.textContent = 'Estado';
+  menu.append(statusTitle);
+
+  statusOptions.forEach((option) => {
+    const optionButton = document.createElement('button');
+    optionButton.type = 'button';
+    optionButton.className = 'filter-dropdown__option';
+    optionButton.setAttribute('role', 'menuitemradio');
+    optionButton.setAttribute('aria-checked', String(statusFilter === option.value));
+    if (statusFilter === option.value) optionButton.classList.add('filter-dropdown__option--active');
+
+    const radio = document.createElement('span');
+    radio.className = 'filter-dropdown__radio';
+    radio.setAttribute('aria-hidden', 'true');
+
+    const label = document.createElement('span');
+    label.textContent = option.label;
+    optionButton.append(radio, label);
+    optionButton.addEventListener('click', () => onStatusSelect(option.value));
     menu.append(optionButton);
   });
 

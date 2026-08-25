@@ -1,5 +1,4 @@
-import type { AppState } from '../types/AppState';
-import type { RemittanceSortField, SortDirection } from '../types/AppState';
+import type { AppState, RemittanceSortField, RemittanceStatusFilter, SortDirection } from '../types/AppState';
 import type { Remittance } from '../types/Remittance';
 
 export interface PaginatedRemittances {
@@ -39,6 +38,11 @@ export const selectSearchedRemittances = (
 
 export const selectChargedRemittances = (remittances: Remittance[]): Remittance[] =>
   remittances.filter((remittance) => remittance.status === 'COBRADO');
+
+export const selectRemittancesByStatus = (
+  remittances: Remittance[],
+  statusFilter: Exclude<RemittanceStatusFilter, 'all'>,
+): Remittance[] => remittances.filter((remittance) => remittance.status === statusFilter);
 
 export const selectRemittancesByChargedDate = (remittances: Remittance[]): Remittance[] =>
   [...remittances].sort((first, second) =>
@@ -87,9 +91,18 @@ export const selectFilteredRemittances = ({
   searchQuery,
   sortField,
   sortDirection,
-}: Pick<AppState, 'remittances' | 'searchQuery' | 'sortField' | 'sortDirection'>): Remittance[] => {
+  statusFilter,
+}: Pick<
+  AppState,
+  'remittances' | 'searchQuery' | 'sortField' | 'sortDirection' | 'statusFilter'
+>): Remittance[] => {
   const searched = selectSearchedRemittances(remittances, searchQuery);
-  const results = searchQuery.trim() ? searched : selectChargedRemittances(searched);
+  const results =
+    statusFilter === 'all'
+      ? searchQuery.trim()
+        ? searched
+        : selectChargedRemittances(searched)
+      : selectRemittancesByStatus(searched, statusFilter);
   return selectRemittancesByField(results, sortField, sortDirection);
 };
 
