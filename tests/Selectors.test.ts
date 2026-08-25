@@ -21,6 +21,7 @@ describe('Selectors', () => {
     searchQuery: '',
     isSearchOpen: false,
     isFilterOpen: false,
+    isLoading: false,
     sortField: 'charged_at',
     sortDirection: 'desc',
     selectedSidebarItem: 'remittance',

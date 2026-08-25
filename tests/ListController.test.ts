@@ -15,6 +15,7 @@ afterEach(() => vi.useRealTimers());
 
 describe('ListController', () => {
   it('busca, cierra el buscador y notifica el resultado', () => {
+    vi.useFakeTimers();
     const store = createStore();
     const alertManager = createAlertManager();
     const controller = createListController(store, alertManager);
@@ -22,10 +23,14 @@ describe('ListController', () => {
     controller.showSearch();
     controller.search('Western Union');
 
+    expect(store.getState().isLoading).toBe(true);
+    vi.advanceTimersByTime(450);
+
     expect(store.getState()).toMatchObject({
       searchQuery: 'Western Union',
       currentPage: 1,
       isSearchOpen: false,
+      isLoading: false,
     });
     expect(alertManager.notifySearchResult).toHaveBeenCalledWith(true);
   });
@@ -39,10 +44,14 @@ describe('ListController', () => {
     controller.toggleFilterDropdown();
     controller.selectSortField('amount');
 
+    expect(store.getState().isLoading).toBe(true);
+    vi.advanceTimersByTime(450);
+
     expect(store.getState()).toMatchObject({
       isFilterOpen: true,
       sortField: 'amount',
       sortDirection: 'desc',
+      isLoading: false,
     });
     expect(alertManager.notifyFilterApplied).toHaveBeenCalledOnce();
 

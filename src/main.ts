@@ -5,6 +5,7 @@ import './styles/layout.css';
 import './styles/components.css';
 import './styles/responsive.css';
 import { createAlert } from './components/Alert';
+import { createActivityLoader } from './components/ActivityLoader';
 import { createAppShell } from './components/AppShell';
 import { createFilterDropdown } from './components/FilterDropdown';
 import { createRemittanceList } from './components/RemittanceList';
@@ -155,35 +156,39 @@ const render = (): void => {
 
   listPanel.append(listHeader, actions);
 
-  if (state.searchQuery) {
+  if (state.isLoading) {
+    listPanel.append(createActivityLoader());
+  } else {
+    if (state.searchQuery) {
+      listPanel.append(
+        createSearchLabel({
+          query: state.searchQuery,
+          onClear: listController.restoreSearch,
+        }),
+      );
+    }
+
+    if (state.isSearchOpen) {
+      listPanel.append(
+        createSearchBar({
+          value: state.searchQuery,
+          onSearch: listController.search,
+        }),
+      );
+    }
+
     listPanel.append(
-      createSearchLabel({
-        query: state.searchQuery,
-        onClear: listController.restoreSearch,
+      createRemittanceList({
+        items: visibleRemittances.items,
+        onRestore: state.searchQuery ? listController.restoreSearch : undefined,
+      }),
+      createPagination({
+        currentPage: visibleRemittances.currentPage,
+        totalPages: visibleRemittances.totalPages,
+        onPageChange: listController.changePage,
       }),
     );
   }
-
-  if (state.isSearchOpen) {
-    listPanel.append(
-      createSearchBar({
-        value: state.searchQuery,
-        onSearch: listController.search,
-      }),
-    );
-  }
-
-  listPanel.append(
-    createRemittanceList({
-      items: visibleRemittances.items,
-      onRestore: state.searchQuery ? listController.restoreSearch : undefined,
-    }),
-    createPagination({
-      currentPage: visibleRemittances.currentPage,
-      totalPages: visibleRemittances.totalPages,
-      onPageChange: listController.changePage,
-    }),
-  );
 
   rightColumn.append(listPanel);
   workspace.append(rightColumn);

@@ -6,4 +6,5 @@ export const REMITTANCE_STATUS: Record<RemittanceStatus, RemittanceStatus> = {
 };
 
 export const DEFAULT_PAGE_SIZE = 10;
+export const LIST_LOADING_DELAY_MS = 450;
 export const MAX_REMITTANCE_ID_LENGTH = 8;

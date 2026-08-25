@@ -7,6 +7,7 @@ import {
 } from '../../state/Selectors';
 import { printRemittanceList } from '../../services/PrintService';
 import type { RemittanceSortField } from '../../types/AppState';
+import { LIST_LOADING_DELAY_MS } from '../../utils/Constants';
 
 type ListSortField = Exclude<RemittanceSortField, 'charged_at'>;
 
@@ -28,6 +29,7 @@ export const createListController = (
   alertManager: AlertManager,
 ): ListController => {
   let filterCloseTimer: ReturnType<typeof setTimeout> | undefined;
+  let loadingTimer: ReturnType<typeof setTimeout> | undefined;
 
   const scheduleFilterClose = (): void => {
     if (filterCloseTimer) clearTimeout(filterCloseTimer);
@@ -38,15 +40,28 @@ export const createListController = (
     }, 5000);
   };
 
+  const runWithLoading = (action: () => void): void => {
+    if (loadingTimer) clearTimeout(loadingTimer);
+    store.setState({ isLoading: true });
+
+    loadingTimer = setTimeout(() => {
+      action();
+      store.setState({ isLoading: false });
+      loadingTimer = undefined;
+    }, LIST_LOADING_DELAY_MS);
+  };
+
   return {
     getVisibleRemittances: () => selectVisibleRemittances(store.getState()),
     showSearch: (): void => store.setState({ isSearchOpen: true }),
     search: (searchQuery): void => {
-      const nextState = { ...store.getState(), searchQuery, currentPage: 1 };
-      const hasResults = selectVisibleRemittances(nextState).totalItems > 0;
+      runWithLoading(() => {
+        const nextState = { ...store.getState(), searchQuery, currentPage: 1 };
+        const hasResults = selectVisibleRemittances(nextState).totalItems > 0;
 
-      store.setState({ searchQuery, currentPage: 1, isSearchOpen: false });
-      alertManager.notifySearchResult(hasResults);
+        store.setState({ searchQuery, currentPage: 1, isSearchOpen: false });
+        alertManager.notifySearchResult(hasResults);
+      });
     },
     restoreSearch: (): void => store.setState({ searchQuery: '', currentPage: 1 }),
     changePage: (currentPage): void => store.setState({ currentPage }),
@@ -60,18 +75,22 @@ export const createListController = (
       if (!isFilterOpen) scheduleFilterClose();
     },
     selectSortField: (sortField): void => {
-      store.setState({ sortField, sortDirection: 'desc', currentPage: 1 });
-      scheduleFilterClose();
-      alertManager.notifyFilterApplied();
+      runWithLoading(() => {
+        store.setState({ sortField, sortDirection: 'desc', currentPage: 1 });
+        scheduleFilterClose();
+        alertManager.notifyFilterApplied();
+      });
     },
     toggleSortDirection: (): void => {
-      const { sortDirection } = store.getState();
-      store.setState({
-        sortDirection: sortDirection === 'desc' ? 'asc' : 'desc',
-        currentPage: 1,
+      runWithLoading(() => {
+        const { sortDirection } = store.getState();
+        store.setState({
+          sortDirection: sortDirection === 'desc' ? 'asc' : 'desc',
+          currentPage: 1,
+        });
+        scheduleFilterClose();
+        alertManager.notifyFilterApplied();
       });
-      scheduleFilterClose();
-      alertManager.notifyFilterApplied();
     },
     printFilteredList: (): void => {
       const remittances = selectFilteredRemittances(store.getState());
@@ -88,6 +107,8 @@ export const createListController = (
     dispose: (): void => {
       if (filterCloseTimer) clearTimeout(filterCloseTimer);
       filterCloseTimer = undefined;
+      if (loadingTimer) clearTimeout(loadingTimer);
+      loadingTimer = undefined;
     },
   };
 };

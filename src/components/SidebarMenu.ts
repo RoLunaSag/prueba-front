@@ -4,7 +4,7 @@ export const sidebarMenuItems: SidebarMenuItem[] = [
   { id: 'home', label: 'Inicio', iconClass: 'fa-solid fa-house' },
   { id: 'remittance', label: 'Remesas', iconClass: 'fa-solid fa-money-bill-transfer' },
   { id: 'card', label: 'Tarjetas', iconClass: 'fa-solid fa-credit-card' },
-  { id: 'policy', label: 'Políticas', iconClass: 'fa-solid fa-file-invoice-dollar' },
+  { id: 'policy', label: 'Pólzas', iconClass: 'fa-solid fa-file-invoice-dollar' },
   { id: 'cashback', label: 'Cashback', iconClass: 'fa-solid fa-hand-holding-dollar' },
   { id: 'statsfolder', label: 'Estadísticas', iconClass: 'fa-solid fa-chart-simple' },
 ];

@@ -33,6 +33,10 @@ export interface FilterDropdownOptions {
   onDirectionToggle: () => void;
 }
 
+export interface ActivityLoaderOptions {
+  label?: string;
+}
+
 export interface RemittanceListItem {
   id: string;
   company: string;

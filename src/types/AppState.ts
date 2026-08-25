@@ -14,6 +14,7 @@ export interface AppState {
   searchQuery: string;
   isSearchOpen: boolean;
   isFilterOpen: boolean;
+  isLoading: boolean;
   sortField: RemittanceSortField;
   sortDirection: SortDirection;
   selectedSidebarItem: string;
