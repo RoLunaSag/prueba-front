@@ -465,9 +465,11 @@ input {
 .keypad__digit-8 { grid-column: 2; grid-row: 3; }
 .keypad__digit-9 { grid-column: 3; grid-row: 3; }
 .keypad__digit-0 { border-radius: 2rem !important; grid-column: 1 / span 2; grid-row: 4; }
+.keypad__decimal { grid-column: 3; grid-row: 4; }
 
 .keypad__delete {
   background: #f7f5f5 !important;
+  border-radius: 50% !important;
   color: #202020 !important;
   grid-column: 4;
   grid-row: 1 / span 2;

@@ -25,6 +25,15 @@ export const createKeypad = ({ onDigit, onDelete, onConfirm }: KeypadOptions): H
     keypad.append(button);
   });
 
+  const decimalButton = createButton({
+    label: '.',
+    type: 'keypad',
+    size: 'lg',
+    onClick: () => onDigit('.'),
+  });
+  decimalButton.classList.add('keypad__decimal');
+  decimalButton.setAttribute('aria-label', 'Agregar punto decimal');
+
   const deleteButton = createButton({
     label: '⌫',
     type: 'keypad',
@@ -43,6 +52,6 @@ export const createKeypad = ({ onDigit, onDelete, onConfirm }: KeypadOptions): H
   confirmButton.classList.add('keypad__confirm');
   confirmButton.setAttribute('aria-label', 'Cobrar remesa');
 
-  keypad.append(deleteButton, confirmButton);
+  keypad.append(decimalButton, deleteButton, confirmButton);
   return keypad;
 };
