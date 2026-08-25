@@ -13,6 +13,8 @@ import { createTopbar } from './components/Topbar';
 import { createPagination } from './features/remittance-list/Pagination';
 import { createPaymentController } from './features/remittance-payment/PaymentController';
 import { createPaymentForm } from './features/remittance-payment/PaymentForm';
+import { sidebarMenuItems } from './components/SidebarMenu';
+import { createAlertManager } from './state/AlertManager';
 import { selectVisibleRemittances } from './state/Selectors';
 import { createStore } from './state/Store';
 
@@ -24,6 +26,7 @@ if (!root) {
 
 const store = createStore();
 const paymentController = createPaymentController(store);
+const alertManager = createAlertManager(store);
 
 const getTodayLabel = (): string =>
   new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', year: 'numeric' }).format(
@@ -114,7 +117,9 @@ const render = (): void => {
 
   actions.append(
     searchButton,
-    createListActionButton('fa-solid fa-filter', 'Filtrar remesas'),
+    createListActionButton('fa-solid fa-filter', 'Filtrar remesas', 'list-panel__action', () =>
+      alertManager.notifyFilterApplied(),
+    ),
     createListActionButton('fa-solid fa-print', 'Imprimir listado'),
   );
 
@@ -124,8 +129,13 @@ const render = (): void => {
     listPanel.append(
       createSearchBar({
       value: state.searchQuery,
-        onSearch: (searchQuery) =>
-          store.setState({ searchQuery, currentPage: 1, isSearchOpen: false }),
+        onSearch: (searchQuery) => {
+          const nextState = { ...store.getState(), searchQuery, currentPage: 1 };
+          const hasResults = selectVisibleRemittances(nextState).totalItems > 0;
+
+          store.setState({ searchQuery, currentPage: 1, isSearchOpen: false });
+          alertManager.notifySearchResult(hasResults);
+        },
       }),
     );
   }
@@ -144,7 +154,14 @@ const render = (): void => {
 
   root.replaceChildren(
     createAppShell({
-      sidebar: createSidebar({ onMenuSelect: () => undefined }),
+      sidebar: createSidebar({
+        activeItemId: state.selectedSidebarItem,
+        onMenuSelect: (itemId) => {
+          const area = sidebarMenuItems.find((item) => item.id === itemId)?.label ?? itemId;
+          store.setState({ selectedSidebarItem: itemId });
+          alertManager.notifyAreaSelected(area);
+        },
+      }),
       content,
     }),
   );

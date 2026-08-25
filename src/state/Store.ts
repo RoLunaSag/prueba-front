@@ -51,6 +51,7 @@ export const createInitialAppState = (): AppState => ({
   searchQuery: '',
   isSearchOpen: false,
   isKeypadOpen: true,
+  selectedSidebarItem: 'remittance',
   currentPage: 1,
   pageSize: DEFAULT_PAGE_SIZE,
   paymentInput: '',

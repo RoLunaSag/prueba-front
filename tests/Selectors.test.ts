@@ -20,6 +20,7 @@ describe('Selectors', () => {
     searchQuery: '',
     isSearchOpen: false,
     isKeypadOpen: true,
+    selectedSidebarItem: 'remittance',
     currentPage: 1,
     pageSize: 10,
     paymentInput: '',

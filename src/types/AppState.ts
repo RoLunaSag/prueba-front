@@ -12,6 +12,7 @@ export interface AppState {
   searchQuery: string;
   isSearchOpen: boolean;
   isKeypadOpen: boolean;
+  selectedSidebarItem: string;
   currentPage: number;
   pageSize: number;
   paymentInput: string;
