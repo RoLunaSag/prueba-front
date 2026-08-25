@@ -1,4 +1,5 @@
 import type { RemittanceListItem } from '../types/ComponentsTypes';
+import { formatCurrency } from '../utils/Formatters';
 
 export const createItemList = ({ id, company, amount }: RemittanceListItem): HTMLLIElement => {
   const item = document.createElement('li');
@@ -14,10 +15,7 @@ export const createItemList = ({ id, company, amount }: RemittanceListItem): HTM
 
   const amountElement = document.createElement('span');
   amountElement.className = 'item-list__amount';
-  amountElement.textContent = new Intl.NumberFormat('es-MX', {
-    style: 'currency',
-    currency: 'MXN',
-  }).format(amount);
+  amountElement.textContent = formatCurrency(amount);
 
   item.append(idElement, companyElement, amountElement);
   return item;
