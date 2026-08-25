@@ -1,18 +1,17 @@
+import type { AlertManager } from '../../state/AlertManager';
 import type { AppStore } from '../../state/Store';
 import { MAX_REMITTANCE_ID_LENGTH } from '../../utils/Constants';
 import { chargeRemittance } from '../../services/RemittanceService';
 
-export const createPaymentController = (store: AppStore) => ({
+export const createPaymentController = (store: AppStore, alertManager: AlertManager) => ({
   appendDigit: (digit: string): void => {
     const { paymentInput } = store.getState();
 
     if (paymentInput.length >= MAX_REMITTANCE_ID_LENGTH) {
-      store.setState({
-        alert: {
-          type: 'error',
-          message: `El ID de remesa no puede tener más de ${MAX_REMITTANCE_ID_LENGTH} caracteres.`,
-        },
-      });
+      alertManager.show(
+        `El ID de remesa no puede tener más de ${MAX_REMITTANCE_ID_LENGTH} caracteres.`,
+        'error',
+      );
       return;
     }
 
@@ -27,7 +26,7 @@ export const createPaymentController = (store: AppStore) => ({
     const result = chargeRemittance(state.remittances, state.paymentInput);
 
     if (!result.success) {
-      store.setState({ alert: { type: 'error', message: result.error } });
+      alertManager.show(result.error, 'error');
       return;
     }
 
@@ -37,7 +36,7 @@ export const createPaymentController = (store: AppStore) => ({
       searchQuery: '',
       isSearchOpen: false,
       currentPage: 1,
-      alert: { type: 'success', message: `La remesa ${result.remittance.id} fue cobrada.` },
     });
+    alertManager.show(`La remesa ${result.remittance.id} fue cobrada.`, 'success');
   },
 });

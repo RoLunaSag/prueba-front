@@ -25,8 +25,8 @@ if (!root) {
 }
 
 const store = createStore();
-const paymentController = createPaymentController(store);
 const alertManager = createAlertManager(store);
+const paymentController = createPaymentController(store, alertManager);
 let isPaymentPanelOpen = true;
 
 const getTodayLabel = (): string =>
@@ -82,7 +82,7 @@ const render = (): void => {
     content.append(
       createAlert({
         ...state.alert,
-        onDismiss: () => store.setState({ alert: null }),
+        onDismiss: alertManager.clear,
       }),
     );
   }
