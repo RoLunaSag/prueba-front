@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   selectPaginatedRemittances,
+  selectRemittancesByField,
   selectSearchedRemittances,
   selectVisibleRemittances,
 } from '../src/state/Selectors';
@@ -19,6 +20,9 @@ describe('Selectors', () => {
     remittances,
     searchQuery: '',
     isSearchOpen: false,
+    isFilterOpen: false,
+    sortField: 'charged_at',
+    sortDirection: 'desc',
     selectedSidebarItem: 'remittance',
     currentPage: 1,
     pageSize: 10,
@@ -41,6 +45,12 @@ describe('Selectors', () => {
       '10000001',
       '10000004',
     ]);
+  });
+
+  it('ordena por ID, compañía o monto en la dirección solicitada', () => {
+    expect(selectRemittancesByField(remittances, 'amount', 'desc')[0].amount).toBe(12000);
+    expect(selectRemittancesByField(remittances, 'id', 'asc')[0].id).toBe('10000001');
+    expect(selectRemittancesByField(remittances, 'company', 'asc')[0].company).toBe('MoneyGram');
   });
 
   it('pagina el resultado y ajusta una página solicitada fuera de rango', () => {

@@ -6,6 +6,7 @@ import './styles/components.css';
 import './styles/responsive.css';
 import { createAlert } from './components/Alert';
 import { createAppShell } from './components/AppShell';
+import { createFilterDropdown } from './components/FilterDropdown';
 import { createRemittanceList } from './components/RemittanceList';
 import { createSearchBar } from './components/SearchBar';
 import { createSidebar } from './components/Sidebar';
@@ -134,9 +135,24 @@ const render = (): void => {
 
   actions.append(
     searchButton,
-    createListActionButton('fa-solid fa-filter', 'Filtrar remesas', 'list-panel__action', () =>
-      alertManager.notifyFilterApplied(),
-    ),
+    createFilterDropdown({
+      isOpen: state.isFilterOpen,
+      field: state.sortField === 'charged_at' ? null : state.sortField,
+      direction: state.sortDirection,
+      onToggle: () => store.setState({ isFilterOpen: !store.getState().isFilterOpen }),
+      onFieldSelect: (sortField) => {
+        store.setState({ sortField, sortDirection: 'desc', currentPage: 1 });
+        alertManager.notifyFilterApplied();
+      },
+      onDirectionToggle: () => {
+        const currentDirection = store.getState().sortDirection;
+        store.setState({
+          sortDirection: currentDirection === 'desc' ? 'asc' : 'desc',
+          currentPage: 1,
+        });
+        alertManager.notifyFilterApplied();
+      },
+    }),
     createListActionButton('fa-solid fa-print', 'Imprimir listado'),
   );
 

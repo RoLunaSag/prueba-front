@@ -1,4 +1,5 @@
 import type { AppState } from '../types/AppState';
+import type { RemittanceSortField, SortDirection } from '../types/AppState';
 import type { Remittance } from '../types/Remittance';
 
 export interface PaginatedRemittances {
@@ -44,6 +45,24 @@ export const selectRemittancesByChargedDate = (remittances: Remittance[]): Remit
     (second.charged_at ?? '').localeCompare(first.charged_at ?? ''),
   );
 
+export const selectRemittancesByField = (
+  remittances: Remittance[],
+  field: RemittanceSortField,
+  direction: SortDirection,
+): Remittance[] => {
+  if (field === 'charged_at') {
+    const orderedByDate = selectRemittancesByChargedDate(remittances);
+    return direction === 'desc' ? orderedByDate : orderedByDate.reverse();
+  }
+
+  const multiplier = direction === 'asc' ? 1 : -1;
+  return [...remittances].sort((first, second) => {
+    if (field === 'amount') return (first.amount - second.amount) * multiplier;
+
+    return first[field].localeCompare(second[field], 'es-MX', { numeric: true }) * multiplier;
+  });
+};
+
 export const selectPaginatedRemittances = (
   remittances: Remittance[],
   requestedPage: number,
@@ -68,10 +87,12 @@ export const selectVisibleRemittances = ({
   searchQuery,
   currentPage,
   pageSize,
+  sortField,
+  sortDirection,
 }: AppState): PaginatedRemittances => {
   const searched = selectSearchedRemittances(remittances, searchQuery);
   const charged = selectChargedRemittances(searched);
-  const ordered = selectRemittancesByChargedDate(charged);
+  const ordered = selectRemittancesByField(charged, sortField, sortDirection);
 
   return selectPaginatedRemittances(ordered, currentPage, pageSize);
 };

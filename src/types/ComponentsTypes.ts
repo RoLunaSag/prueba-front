@@ -1,4 +1,5 @@
 import type { RemittanceStatus } from './Remittance';
+import type { RemittanceSortField, SortDirection } from './AppState';
 
 export type AlertType = 'success' | 'error' | 'info';
 export type ButtonType = 'primary' | 'secondary' | 'outline' | 'ghost' | 'keypad';
@@ -27,6 +28,15 @@ export interface ButtonProps {
 export interface EmptyStateOptions {
   title: string;
   description?: string;
+}
+
+export interface FilterDropdownOptions {
+  isOpen: boolean;
+  field: Exclude<RemittanceSortField, 'charged_at'> | null;
+  direction: SortDirection;
+  onToggle: () => void;
+  onFieldSelect: (field: Exclude<RemittanceSortField, 'charged_at'>) => void;
+  onDirectionToggle: () => void;
 }
 
 export interface RemittanceListItem {
