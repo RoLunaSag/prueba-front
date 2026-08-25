@@ -25,11 +25,11 @@ export const createSearchBar = ({
 
   const button = createButton({
     label: 'Buscar',
-    variant: 'icon',
-    type: 'submit',
-    iconClass: 'fa-solid fa-magnifying-glass',
-    ariaLabel: 'Buscar remesas',
+    type: 'outline',
+    size: 'sm',
   });
+  button.type = 'submit';
+  button.setAttribute('aria-label', 'Buscar remesas');
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();

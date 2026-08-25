@@ -25,7 +25,7 @@ export const createUserBox = ({
   const avatar = avatarUrl ? document.createElement('img') : document.createElement('span');
   avatar.className = 'user-box__avatar';
 
-  if (avatar instanceof HTMLImageElement) {
+  if (avatar instanceof HTMLImageElement && avatarUrl) {
     avatar.alt = `Foto de ${name}`;
     avatar.src = avatarUrl;
   } else {

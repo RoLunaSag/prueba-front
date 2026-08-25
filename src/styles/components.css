@@ -1,0 +1,85 @@
+.button {
+  --button-bg: #2c13b9;
+  --button-color: #ffffff;
+  --button-border: transparent;
+
+  align-items: center;
+  background-color: var(--button-bg);
+  border: 1px solid var(--button-border);
+  border-radius: 0.5rem;
+  color: var(--button-color);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: 600;
+  gap: 0.5rem;
+  justify-content: center;
+  line-height: 1;
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.button:hover {
+  filter: brightness(0.94);
+}
+
+.button:focus-visible {
+  outline: 3px solid #71e2ef;
+  outline-offset: 2px;
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.button--primary {
+  box-shadow: 0 0.35rem 0.75rem rgb(44 19 185 / 25%);
+}
+
+.button--secondary {
+  border-color: #e0dfe4;
+}
+
+.button--outline {
+  background-color: transparent;
+}
+
+.button--ghost {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.button--keypad {
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.button--sm {
+  min-height: 2rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.button--md {
+  min-height: 2.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.button--lg {
+  min-height: 3.5rem;
+  padding: 1rem 1.25rem;
+}
+
+.button--keypad.button--sm {
+  min-width: 2rem;
+  padding: 0.5rem;
+}
+
+.button--keypad.button--md {
+  min-width: 3.5rem;
+  padding: 0.75rem;
+}
+
+.button--keypad.button--lg {
+  min-width: 4.5rem;
+  padding: 1rem;
+}
