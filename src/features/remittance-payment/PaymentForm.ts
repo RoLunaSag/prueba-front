@@ -19,7 +19,11 @@ export const createPaymentForm = ({
 
   const applicationTitle = document.createElement('h1');
   applicationTitle.className = 'payment-form__application-title';
-  applicationTitle.textContent = 'Ventanilla Digital';
+  applicationTitle.append('Ventanilla ');
+
+  const digitalLabel = document.createElement('strong');
+  digitalLabel.textContent = 'Digital';
+  applicationTitle.append(digitalLabel);
 
   const heading = document.createElement('h2');
   heading.className = 'payment-form__title';
@@ -34,7 +38,21 @@ export const createPaymentForm = ({
   input.readOnly = true;
   input.setAttribute('aria-label', 'ID de remesa capturado');
 
-  section.append(applicationTitle, heading, input, createKeypad({ onDigit, onDelete, onConfirm }));
+  const inputWrapper = document.createElement('div');
+  inputWrapper.className = 'payment-form__input-wrapper';
+
+  const inputPrefix = document.createElement('span');
+  inputPrefix.className = 'payment-form__input-prefix';
+  inputPrefix.textContent = '#';
+  inputPrefix.setAttribute('aria-hidden', 'true');
+
+  inputWrapper.append(inputPrefix, input);
+  section.append(
+    applicationTitle,
+    heading,
+    inputWrapper,
+    createKeypad({ onDigit, onDelete, onConfirm }),
+  );
 
   return section;
 };

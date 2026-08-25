@@ -361,19 +361,38 @@
   margin: 1rem 0 0;
 }
 
-.payment-form__input {
+.payment-form__input-wrapper {
+  align-items: center;
   background: #f7f5f5;
   border: 0;
   border-radius: 0.4rem;
   color: #202020;
-  display: block;
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: 0.25rem;
+  display: flex;
   margin: 2rem auto;
   max-width: 18rem;
   padding: 0.9rem 1rem;
-  text-align: center;
+  width: 100%;
+}
+
+.payment-form__input-prefix {
+  color: #9a9a9a;
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1;
+  margin-right: 1rem;
+}
+
+.payment-form__input {
+  background: transparent;
+  border: 0;
+  color: #202020;
+  flex: 1;
+  font: inherit;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.25rem;
+  min-width: 0;
+  padding: 0;
   width: 100%;
 }
 
