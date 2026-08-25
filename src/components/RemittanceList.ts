@@ -5,6 +5,7 @@ export const createRemittanceList = ({
   items,
   emptyMessage = 'No hay remesas para mostrar.',
   onRestore,
+  onItemSelect,
 }: RemittanceListOptions): HTMLElement => {
   const container = document.createElement('section');
   container.className = 'remittance-list';
@@ -36,7 +37,7 @@ export const createRemittanceList = ({
 
   const list = document.createElement('ul');
   list.className = 'remittance-list__items';
-  items.forEach((item) => list.append(createItemList(item)));
+  items.forEach((item) => list.append(createItemList({ ...item, onSelect: onItemSelect })));
 
   container.append(list);
   return container;

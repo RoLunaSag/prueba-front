@@ -239,6 +239,19 @@
   text-align: right;
 }
 
+.item-list--selectable {
+  cursor: pointer;
+}
+
+.item-list--selectable:hover {
+  background: #f4f3ff;
+}
+
+.item-list--selectable:focus-visible {
+  outline: 3px solid #71e2ef;
+  outline-offset: -2px;
+}
+
 .remittance-list__empty,
 .empty-state {
   color: #6d6d6d;

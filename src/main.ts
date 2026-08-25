@@ -181,6 +181,7 @@ const render = (): void => {
       createRemittanceList({
         items: visibleRemittances.items,
         onRestore: state.searchQuery ? listController.restoreSearch : undefined,
+        onItemSelect: paymentController.selectRemittanceId,
       }),
       createPagination({
         currentPage: visibleRemittances.currentPage,

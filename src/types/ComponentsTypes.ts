@@ -43,10 +43,15 @@ export interface RemittanceListItem {
   amount: number;
 }
 
+export interface ItemListOptions extends RemittanceListItem {
+  onSelect?: (id: string) => void;
+}
+
 export interface RemittanceListOptions {
   items: RemittanceListItem[];
   emptyMessage?: string;
   onRestore?: () => void;
+  onItemSelect?: (id: string) => void;
 }
 
 export interface SearchBarOptions {

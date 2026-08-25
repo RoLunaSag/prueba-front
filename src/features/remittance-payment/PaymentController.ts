@@ -4,6 +4,9 @@ import { MAX_REMITTANCE_ID_LENGTH } from '../../utils/Constants';
 import { chargeRemittance } from '../../services/RemittanceService';
 
 export const createPaymentController = (store: AppStore, alertManager: AlertManager) => ({
+  selectRemittanceId: (remittanceId: string): void => {
+    store.setState({ paymentInput: remittanceId, alert: null });
+  },
   appendDigit: (digit: string): void => {
     const { paymentInput } = store.getState();
 
