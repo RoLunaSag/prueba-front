@@ -25,7 +25,26 @@ export const createPagination = ({
     return button;
   };
 
-  navigation.append(createPageButton('‹', currentPage - 1, currentPage === 1));
+  const createIconButton = (
+    iconClass: string,
+    ariaLabel: string,
+    page: number,
+    disabled = false,
+  ): HTMLButtonElement => {
+    const button = createPageButton('', page, disabled);
+    button.setAttribute('aria-label', ariaLabel);
+
+    const icon = document.createElement('i');
+    icon.className = iconClass;
+    icon.setAttribute('aria-hidden', 'true');
+    button.append(icon);
+
+    return button;
+  };
+
+  navigation.append(
+    createIconButton('fa-solid fa-chevron-left', 'Página anterior', currentPage - 1, currentPage === 1),
+  );
 
   for (let page = 1; page <= totalPages; page += 1) {
     const button = createPageButton(String(page), page);
@@ -33,6 +52,8 @@ export const createPagination = ({
     navigation.append(button);
   }
 
-  navigation.append(createPageButton('›', currentPage + 1, currentPage === totalPages));
+  navigation.append(
+    createIconButton('fa-solid fa-chevron-right', 'Página siguiente', currentPage + 1, currentPage === totalPages),
+  );
   return navigation;
 };
