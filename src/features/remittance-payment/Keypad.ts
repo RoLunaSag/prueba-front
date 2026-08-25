@@ -35,13 +35,18 @@ export const createKeypad = ({ onDigit, onDelete, onConfirm }: KeypadOptions): H
   decimalButton.setAttribute('aria-label', 'Agregar punto decimal');
 
   const deleteButton = createButton({
-    label: '⌫',
+    label: '',
     type: 'keypad',
     size: 'lg',
     onClick: onDelete,
   });
   deleteButton.classList.add('keypad__delete');
   deleteButton.setAttribute('aria-label', 'Borrar último dígito');
+
+  const deleteIcon = document.createElement('i');
+  deleteIcon.className = 'fa-solid fa-delete-left';
+  deleteIcon.setAttribute('aria-hidden', 'true');
+  deleteButton.append(deleteIcon);
 
   const confirmButton = createButton({
     label: '↵',
