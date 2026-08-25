@@ -1,0 +1,36 @@
+import { createSidebarMenu } from './SidebarMenu';
+import type { SidebarMenuItem } from './SidebarMenu';
+
+export interface SidebarOptions {
+  brand: string;
+  menuItems: SidebarMenuItem[];
+  activeItemId?: string;
+  onMenuSelect?: (itemId: string) => void;
+}
+
+export const createSidebar = ({
+  brand,
+  menuItems,
+  activeItemId,
+  onMenuSelect,
+}: SidebarOptions): HTMLElement => {
+  const sidebar = document.createElement('div');
+  sidebar.className = 'sidebar';
+
+  const brandElement = document.createElement('a');
+  brandElement.className = 'sidebar__brand';
+  brandElement.href = '/';
+  brandElement.textContent = brand;
+  brandElement.setAttribute('aria-label', 'Ir al inicio');
+
+  sidebar.append(
+    brandElement,
+    createSidebarMenu({
+      items: menuItems,
+      activeItemId,
+      onSelect: onMenuSelect,
+    }),
+  );
+
+  return sidebar;
+};
