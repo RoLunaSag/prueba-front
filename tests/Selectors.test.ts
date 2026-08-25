@@ -18,6 +18,7 @@ describe('Selectors', () => {
   const createState = (overrides: Partial<AppState> = {}): AppState => ({
     remittances,
     searchQuery: '',
+    isSearchOpen: false,
     currentPage: 1,
     pageSize: 10,
     paymentInput: '',

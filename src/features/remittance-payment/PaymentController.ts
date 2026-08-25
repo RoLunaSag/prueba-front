@@ -35,6 +35,7 @@ export const createPaymentController = (store: AppStore) => ({
       remittances: result.remittances,
       paymentInput: '',
       searchQuery: '',
+      isSearchOpen: false,
       currentPage: 1,
       alert: { type: 'success', message: `La remesa ${result.remittance.id} fue cobrada.` },
     });

@@ -10,6 +10,7 @@ export interface AppAlert {
 export interface AppState {
   remittances: Remittance[];
   searchQuery: string;
+  isSearchOpen: boolean;
   currentPage: number;
   pageSize: number;
   paymentInput: string;

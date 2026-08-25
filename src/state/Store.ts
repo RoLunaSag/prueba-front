@@ -49,6 +49,7 @@ export const getMockRemittances = (): Remittance[] =>
 export const createInitialAppState = (): AppState => ({
   remittances: getMockRemittances(),
   searchQuery: '',
+  isSearchOpen: false,
   currentPage: 1,
   pageSize: DEFAULT_PAGE_SIZE,
   paymentInput: '',

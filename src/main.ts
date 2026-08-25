@@ -34,6 +34,7 @@ const createListActionButton = (
   iconClass: string,
   ariaLabel: string,
   className = 'list-panel__action',
+  onClick?: () => void,
 ): HTMLButtonElement => {
   const button = document.createElement('button');
   button.type = 'button';
@@ -44,6 +45,7 @@ const createListActionButton = (
   icon.className = iconClass;
   icon.setAttribute('aria-hidden', 'true');
   button.append(icon);
+  if (onClick) button.addEventListener('click', onClick);
 
   return button;
 };
@@ -99,19 +101,33 @@ const render = (): void => {
 
   const actions = document.createElement('div');
   actions.className = 'list-panel__actions';
+  const searchButton = createListActionButton(
+    'fa-solid fa-magnifying-glass',
+    'Mostrar búsqueda de remesas',
+    'list-panel__action',
+    () => store.setState({ isSearchOpen: true }),
+  );
+  searchButton.setAttribute('aria-expanded', String(state.isSearchOpen));
+
   actions.append(
-    createListActionButton('fa-solid fa-magnifying-glass', 'Buscar remesas'),
+    searchButton,
     createListActionButton('fa-solid fa-filter', 'Filtrar remesas'),
     createListActionButton('fa-solid fa-print', 'Imprimir listado'),
   );
 
-  listPanel.append(
-    listHeader,
-    actions,
-    createSearchBar({
+  listPanel.append(listHeader, actions);
+
+  if (state.isSearchOpen) {
+    listPanel.append(
+      createSearchBar({
       value: state.searchQuery,
-      onSearch: (searchQuery) => store.setState({ searchQuery, currentPage: 1 }),
-    }),
+        onSearch: (searchQuery) =>
+          store.setState({ searchQuery, currentPage: 1, isSearchOpen: false }),
+      }),
+    );
+  }
+
+  listPanel.append(
     createRemittanceList({ items: visibleRemittances.items }),
     createPagination({
       currentPage: visibleRemittances.currentPage,
