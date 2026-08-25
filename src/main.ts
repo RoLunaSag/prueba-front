@@ -9,6 +9,7 @@ import { createAppShell } from './components/AppShell';
 import { createFilterDropdown } from './components/FilterDropdown';
 import { createRemittanceList } from './components/RemittanceList';
 import { createSearchBar } from './components/SearchBar';
+import { createSearchLabel } from './components/SearchLabel';
 import { createSidebar } from './components/Sidebar';
 import { createTopbar } from './components/Topbar';
 import userElizabethAvatar from '../assets/images/user-elizabeth.jpg';
@@ -153,6 +154,15 @@ const render = (): void => {
   );
 
   listPanel.append(listHeader, actions);
+
+  if (state.searchQuery) {
+    listPanel.append(
+      createSearchLabel({
+        query: state.searchQuery,
+        onClear: listController.restoreSearch,
+      }),
+    );
+  }
 
   if (state.isSearchOpen) {
     listPanel.append(

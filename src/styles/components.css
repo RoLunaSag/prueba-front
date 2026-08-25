@@ -638,6 +638,45 @@ input {
   flex: 1;
 }
 
+.search-label {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.search-label__text {
+  background: #646464;
+  border-radius: 0.55rem;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.6rem 1.25rem;
+}
+
+.search-label__clear {
+  align-items: center;
+  background: #626262;
+  border: 0;
+  border-radius: 50%;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  height: 1.8rem;
+  justify-content: center;
+  padding: 0;
+  width: 1.8rem;
+}
+
+.search-label__clear:hover {
+  background: #424242;
+}
+
+.search-label__clear:focus-visible {
+  outline: 3px solid #71e2ef;
+  outline-offset: 2px;
+}
+
 .pagination {
   display: flex;
   gap: 0.35rem;

@@ -57,6 +57,11 @@ export interface SearchBarOptions {
   onSearch: (query: string) => void;
 }
 
+export interface SearchLabelOptions {
+  query: string;
+  onClear: () => void;
+}
+
 export interface SidebarMenuItem {
   id: string;
   label: string;
