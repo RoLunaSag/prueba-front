@@ -1,4 +1,4 @@
-export type RemittanceStatus = 'COBRADO' | 'NO_COBRADO';
+import type { RemittanceStatus } from '../types/Remittance';
 
 export interface StatusBadgeOptions {
   status: RemittanceStatus;
