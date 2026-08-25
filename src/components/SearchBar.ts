@@ -1,0 +1,41 @@
+import { createButton } from './Button';
+
+export interface SearchBarOptions {
+  placeholder?: string;
+  value?: string;
+  onSearch: (query: string) => void;
+}
+
+export const createSearchBar = ({
+  placeholder = 'Buscar por ID, compañía o monto',
+  value = '',
+  onSearch,
+}: SearchBarOptions): HTMLFormElement => {
+  const form = document.createElement('form');
+  form.className = 'search-bar';
+  form.setAttribute('role', 'search');
+
+  const input = document.createElement('input');
+  input.className = 'search-bar__input';
+  input.type = 'search';
+  input.name = 'query';
+  input.placeholder = placeholder;
+  input.value = value;
+  input.setAttribute('aria-label', placeholder);
+
+  const button = createButton({
+    label: 'Buscar',
+    variant: 'icon',
+    type: 'submit',
+    iconClass: 'fa-solid fa-magnifying-glass',
+    ariaLabel: 'Buscar remesas',
+  });
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    onSearch(input.value.trim());
+  });
+
+  form.append(input, button);
+  return form;
+};
